@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anas Farhan</title>
+<meta name="description" content="Personal portfolio for Anas Farhan, a full-stack fintech/digital-wallet engineer, styled as a bank passbook statement.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%BE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root { color-scheme: light dark; }
+  * { margin: 0; padding: 0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+  /* ---------- Tokens ---------- */
+  :root {
+    --paper: #EAEBE1;
+    --paper-raised: #F3F4EC;
+    --paper-sunken: #E1E3D7;
+    --ink: #1C2521;
+    --ink-muted: #5B6459;
+    --ink-faint: #838C7E;
+    --accent: #2F6B4F;
+    --accent-soft: rgba(47, 107, 79, 0.12);
+    --brass: #9C6B2E;
+    --stamp: #A63A2E;
+    --line: rgba(28, 37, 33, 0.16);
+    --line-strong: rgba(28, 37, 33, 0.36);
+    --shadow: 0 1px 0 rgba(28, 37, 33, 0.05), 0 10px 30px -18px rgba(28, 37, 33, 0.35);
+
+    --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    --font-body: 'Public Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #121A16;
+      --paper-raised: #17211C;
+      --paper-sunken: #0D1310;
+      --ink: #E7E5D8;
+      --ink-muted: #9EAA9B;
+      --ink-faint: #6C766A;
+      --accent: #78CB9D;
+      --accent-soft: rgba(120, 203, 157, 0.14);
+      --brass: #D2A85E;
+      --stamp: #E28A78;
+      --line: rgba(231, 229, 216, 0.14);
+      --line-strong: rgba(231, 229, 216, 0.32);
+      --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 10px 30px -18px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #121A16;
+    --paper-raised: #17211C;
+    --paper-sunken: #0D1310;
+    --ink: #E7E5D8;
+    --ink-muted: #9EAA9B;
+    --ink-faint: #6C766A;
+    --accent: #78CB9D;
+    --accent-soft: rgba(120, 203, 157, 0.14);
+    --brass: #D2A85E;
+    --stamp: #E28A78;
+    --line: rgba(231, 229, 216, 0.14);
+    --line-strong: rgba(231, 229, 216, 0.32);
+    --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 10px 30px -18px rgba(0, 0, 0, 0.6);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    padding-inline: 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent); text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  /* ---------- Page shell ---------- */
+  .sheet {
+    max-width: 760px;
+    margin-inline: auto;
+    padding-block: 40px 64px;
+  }
+
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+  }
+
+  /* Perforated tear edge along the top of the header card */
+  .perf {
+    height: 14px;
+    background-image: radial-gradient(circle, var(--paper) 42%, transparent 43%);
+    background-size: 22px 14px;
+    background-position: 11px center;
+    background-repeat: repeat-x;
+    border-bottom: 1px dashed var(--line-strong);
+  }
+
+  /* ---------- Header ---------- */
+  .masthead {
+    overflow: hidden;
+    opacity: 0;
+    animation: rise 0.6s ease-out 0.05s forwards;
+  }
+
+  .masthead-body {
+    padding: 30px 28px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .name {
+    font-size: clamp(2.1rem, 5vw, 2.9rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .name .ch {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.5em) rotate(-6deg) scale(0.7);
+    filter: blur(4px);
+    animation: letter-in 0.6s cubic-bezier(.2,.9,.25,1) forwards;
+  }
+  .name .ch.space { width: 0.28em; }
+
+  .role {
+    margin-top: 8px;
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    opacity: 0;
+    animation: rise 0.5s ease-out 0.5s forwards;
+  }
+  .role strong { color: var(--ink); font-weight: 600; }
+
+  .type-line {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-muted);
+    min-height: 1.4em;
+    opacity: 0;
+    animation: rise 0.5s ease-out 0.65s forwards;
+  }
+  .type-line .prompt { color: var(--brass); margin-right: 6px; }
+  .type-line .tw { color: var(--accent); }
+  .type-line .caret {
+    display: inline-block;
+    width: 7px; height: 1em;
+    margin-left: 2px;
+    background: var(--accent);
+    vertical-align: -2px;
+    animation: blink 1s step-start infinite;
+  }
+
+  .acct-field {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+  }
+  .acct-field .v {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .contact-row a, .contact-row span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ink-muted);
+  }
+  .contact-row a:hover { color: var(--accent); }
+  .contact-row svg { width: 14px; height: 14px; flex: none; }
+
+  /* ---------- Sections ---------- */
+  section { margin-top: 34px; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .section-head h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  .section-head::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .note {
+    font-size: 1.02rem;
+    max-width: 62ch;
+    color: var(--ink);
+  }
+  .note .lede { color: var(--ink-muted); }
+
+  /* ---------- Stat strip ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+  .stat {
+    background: var(--paper-raised);
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stat .num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .stat .label {
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- Ledger table (stack) ---------- */
+  .ledger {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--paper-raised);
+  }
+  .ledger-row {
+    display: grid;
+    grid-template-columns: 148px 1fr;
+    gap: 4px 20px;
+    padding: 13px 18px;
+  }
+  .ledger-row + .ledger-row { border-top: 1px solid var(--line); }
+  .ledger-row dt {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--brass);
+    padding-top: 2px;
+  }
+  .ledger-row dd {
+    margin: 0;
+    color: var(--ink);
+  }
+
+  /* ---------- Experience ---------- */
+  .job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin-bottom: 6px;
+  }
+  .job-title { font-size: 1.15rem; font-weight: 600; }
+  .job-meta {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink-muted);
+  }
+  .status-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--stamp);
+    margin-right: 6px;
+    vertical-align: 1px;
+  }
+  .job-intro {
+    color: var(--ink-muted);
+    max-width: 62ch;
+    margin-bottom: 18px;
+  }
+
+  .entries { border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: var(--paper-raised); }
+  .entry {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 18px;
+    align-items: start;
+    padding: 15px 18px;
+  }
+  .entry + .entry { border-top: 1px solid var(--line); }
+  .entry .desc { max-width: 56ch; }
+  .entry .desc .lead { font-weight: 600; }
+  .entry .desc .rest { color: var(--ink-muted); }
+  .entry .meta {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    min-width: 84px;
+  }
+  .entry .tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    background: var(--paper-sunken);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 2px 6px;
+    white-space: nowrap;
+  }
+  .entry .figure {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* ---------- Projects ---------- */
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .proj {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--paper-raised);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .proj-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .proj-idx {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+  .proj h3 { font-size: 1.08rem; font-weight: 600; }
+  .proj-stack {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--brass);
+    letter-spacing: 0.02em;
+  }
+  .proj p { margin: 0; color: var(--ink-muted); font-size: 14.5px; }
+  .proj-link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+  .proj-link svg { width: 13px; height: 13px; }
+
+  /* ---------- Education / credential ---------- */
+  .credential {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 20px;
+  }
+  .seal {
+    flex: none;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.03em;
+    text-align: center;
+    line-height: 1.2;
+    transform: rotate(-6deg);
+  }
+  .credential h3 { font-size: 1.05rem; font-weight: 600; }
+  .credential p { margin: 2px 0 0; color: var(--ink-muted); font-size: 14px; }
+
+  /* ---------- Footer / status ---------- */
+  footer {
+    margin-top: 40px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--line-strong);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .status-line {
+    font-size: 14.5px;
+    max-width: 46ch;
+  }
+  .status-line .k {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .stamp-mark {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    border-radius: 6px;
+    padding: 6px 12px;
+    transform: rotate(-4deg);
+    white-space: nowrap;
+  }
+  .foot-note {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin-top: 6px;
+  }
+
+  /* ---------- Ambient ledger-network canvas ---------- */
+  #ledger-net {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.55;
+  }
+
+  /* ---------- Scroll cue ---------- */
+  .scroll-cue {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    opacity: 0;
+    animation: rise 0.5s ease-out 0.8s forwards;
+  }
+  .scroll-cue:hover { color: var(--accent); }
+  .scroll-cue svg { width: 13px; height: 13px; animation: bob 1.8s ease-in-out infinite; }
+
+  /* ---------- Motion ---------- */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes letter-in {
+    to { opacity: 1; transform: translateY(0) rotate(0) scale(1); filter: blur(0); }
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+  }
+  section, .stats { opacity: 0; animation: rise 0.5s ease-out forwards; }
+  section:nth-of-type(1), .stats { animation-delay: 0.12s; }
+  section:nth-of-type(2) { animation-delay: 0.18s; }
+  section:nth-of-type(3) { animation-delay: 0.24s; }
+  section:nth-of-type(4) { animation-delay: 0.30s; }
+  section:nth-of-type(5) { animation-delay: 0.36s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .masthead, .role, .type-line, .scroll-cue, section, .stats, .name .ch {
+      animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important;
+    }
+    .type-line .caret { animation: none !important; opacity: 1; }
+    #ledger-net { display: none; }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .projects { grid-template-columns: 1fr; }
+    .entry { grid-template-columns: 1fr; }
+    .entry .meta { flex-direction: row; align-items: center; justify-content: flex-start; }
+    .ledger-row { grid-template-columns: 1fr; }
+    .acct-field { text-align: left; }
+    .masthead-top { flex-direction: column; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="ledger-net" aria-hidden="true"></canvas>
+
+<div class="sheet">
+
+  <!-- ============ HEADER / PASSBOOK COVER ============ -->
+  <header class="card masthead">
+    <div class="perf" aria-hidden="true"></div>
+    <div class="masthead-body">
+      <div class="masthead-top">
+        <div>
+          <p class="eyebrow">Statement of Engineering — Digital Wallet &amp; Fintech</p>
+          <h1 class="name" id="name-target" aria-label="Anas Farhan">Anas Farhan</h1>
+          <p class="role"><strong>Full-Stack Software Engineer</strong> — Java · Spring Boot · React · TypeScript</p>
+          <p class="type-line"><span class="prompt">&gt;</span><span class="tw" id="typewriter"></span><span class="caret"></span></p>
+        </div>
+        <div class="acct-field">
+          BRANCH
+          <div class="v">Shah Alam, Selangor, MY</div>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <a href="https://www.linkedin.com/in/anas-farhan-1481372a5/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2 3.77-2 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V21H9z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/AnasDeveloper69" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.9-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+          GitHub
+        </a>
+        <a href="mailto:anasfarhan698@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg>
+          anasfarhan698@gmail.com
+        </a>
+        <span><span class="status-dot" aria-hidden="true"></span>Available now</span>
+      </div>
+
+      <a class="scroll-cue" href="#summary">
+        Read statement
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============ SUMMARY ============ -->
+  <section id="summary">
+    <div class="section-head"><h2>Summary</h2></div>
+    <p class="note">
+      Full-stack software engineer with <strong>2+ years</strong> building a production fintech and
+      digital-wallet platform end to end — from Spring Boot microservices and PostgreSQL on the backend
+      to React, TypeScript, and React Native on the frontend.
+      <span class="lede">I enjoy owning a feature across the whole stack: modeling the data, designing
+      the API, and shipping the UI that sits on top. I care about clean architecture, sensible data
+      modeling, and code the next engineer can actually read.</span>
+    </p>
+
+    <div class="stats" role="list" aria-label="Career figures">
+      <div class="stat" role="listitem"><span class="num">2+</span><span class="label">Years Experience</span></div>
+      <div class="stat" role="listitem"><span class="num">130K</span><span class="label">Members Migrated</span></div>
+      <div class="stat" role="listitem"><span class="num">628K</span><span class="label">Row Dataset Reported</span></div>
+      <div class="stat" role="listitem"><span class="num">8</span><span class="label">Level Referral Tree</span></div>
+    </div>
+  </section>
+
+  <!-- ============ TECH STACK ============ -->
+  <section>
+    <div class="section-head"><h2>Tech Stack</h2></div>
+    <dl class="ledger">
+      <div class="ledger-row">
+        <dt>Backend</dt>
+        <dd>Java, Spring Boot, Spring Data JPA, Kotlin, REST APIs, Microservices</dd>
+      </div>
+      <div class="ledger-row">
+        <dt>Frontend</dt>
+        <dd>React.js, TypeScript, React Native, Tailwind CSS, shadcn/ui</dd>
+      </div>
+      <div class="ledger-row">
+        <dt>Data &amp; Infra</dt>
+        <dd>PostgreSQL, Redis, Keycloak (OAuth 2.0 / OIDC), Appwrite, Firebase</dd>
+      </div>
+      <div class="ledger-row">
+        <dt>Practices</dt>
+        <dd>DTO/mapper patterns, global exception handling, server-side pagination &amp; filtering, cache-aside caching, Git</dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section>
+    <div class="section-head"><h2>Experience</h2></div>
+
+    <div class="job-head">
+      <span class="job-title">Software Engineer — FoneApp <span style="font-weight:400;color:var(--ink-muted)">(Forest One Network Enterprise)</span></span>
+      <span class="job-meta"><span class="status-dot" aria-hidden="true"></span>Apr 2024 – Present · Shah Alam, Malaysia</span>
+    </div>
+    <p class="job-intro">Full-stack engineer on a production digital-wallet and loyalty platform, working across Spring Boot microservices and a React/TypeScript frontend.</p>
+
+    <div class="entries">
+      <div class="entry">
+        <div class="desc"><span class="lead">Legacy-to-microservices migration.</span> <span class="rest">Migrated core business logic from a Mendix low-code platform into testable Spring Boot (Java) microservices across the Membership, Partnership, Transaction, and Finance domains — re-implementing mission rewards, voucher management, prepaid cards, and transaction processing with JPA entity mapping, DTO/mapper patterns, and Spring Data repositories.</span></div>
+        <div class="meta"><span class="figure">4 domains</span><span class="tag">MIGRATION</span></div>
+      </div>
+      <div class="entry">
+        <div class="desc"><span class="lead">Authentication migration to Keycloak.</span> <span class="rest">Led the migration of members from Mendix to Keycloak, building the export mappings and Java actions to produce correctly structured import JSON, and standardizing OAuth 2.0 / OIDC authentication across services.</span></div>
+        <div class="meta"><span class="figure">~130,000</span><span class="tag">AUTH</span></div>
+      </div>
+      <div class="entry">
+        <div class="desc"><span class="lead">High-volume reporting.</span> <span class="rest">Built the Finance Invoice Report using Spring Boot Specification-based dynamic filtering with PostgreSQL trigram indexes for performant search, plus server-side sorting and pagination.</span></div>
+        <div class="meta"><span class="figure">~628,000 rows</span><span class="tag">REPORTING</span></div>
+      </div>
+      <div class="entry">
+        <div class="desc"><span class="lead">Hierarchical data.</span> <span class="rest">Implemented partner-level total calculations that walk a multi-level community spending-node tree, and built a BFS-ordered referral tree visualization (4-ary) on the frontend.</span></div>
+        <div class="meta"><span class="figure">7–8 levels</span><span class="tag">DATA</span></div>
+      </div>
+      <div class="entry">
+        <div class="desc"><span class="lead">Full-stack feature delivery.</span> <span class="rest">Shipped customer-facing reporting features end to end — paginated React/TypeScript tables with column filters, backed by Spring Boot APIs, PostgreSQL, and Redis caching.</span></div>
+        <div class="meta"><span class="figure">3 reports</span><span class="tag">DELIVERY</span></div>
+      </div>
+      <div class="entry">
+        <div class="desc"><span class="lead">Mentorship.</span> <span class="rest">Onboarded and mentored interns — set up tooling, reviewed pull requests, and delegated feature work.</span></div>
+        <div class="meta"><span class="tag">MENTORSHIP</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section>
+    <div class="section-head"><h2>Selected Projects</h2></div>
+    <div class="projects">
+
+      <div class="proj">
+        <div class="proj-top"><h3>Hutang Bro</h3><span class="proj-idx">PG. 01</span></div>
+        <p class="proj-stack">Kotlin · Spring Boot · REST API</p>
+        <p>Receipt-based debt splitter. Creates itemized receipts and computes each person's share, correctly handling bill-level discounts, SST, and service charge in the split logic.</p>
+        <a class="proj-link" href="https://github.com/AnasDeveloper69/Hutang-Tracker" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.9-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+
+      <div class="proj">
+        <div class="proj-top"><h3>Homestay Seri Hijauan</h3><span class="proj-idx">PG. 02</span></div>
+        <p class="proj-stack">React Native · Expo · Appwrite · Netlify</p>
+        <p>Room-booking mobile app and marketing landing page for a family homestay business in Sekinchan, Selangor. A real product serving a real business.</p>
+        <a class="proj-link" href="https://github.com/AnasDeveloper69/Room-Booking-Management" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.9-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+
+      <div class="proj">
+        <div class="proj-top"><h3>TabungRia</h3><span class="proj-idx">PG. 03</span></div>
+        <p class="proj-stack">Product design · Go-to-market strategy</p>
+        <p>Concept for a digital rotating-savings (<em>kutu</em>) app tailored to the Malaysian market, developed alongside a full go-to-market strategy document.</p>
+      </div>
+
+      <div class="proj">
+        <div class="proj-top"><h3>Receipt Scan &amp; Save</h3><span class="proj-idx">PG. 04</span></div>
+        <p class="proj-stack">Flutter · Firebase</p>
+        <p>Mobile app that scans receipts and stores them as structured records — a second mobile stack alongside React Native work.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ EDUCATION ============ -->
+  <section>
+    <div class="section-head"><h2>Education</h2></div>
+    <div class="card credential">
+      <div class="seal">UiTM<br>CS</div>
+      <div>
+        <h3>Universiti Teknologi MARA (UiTM)</h3>
+        <p>Bachelor's Degree, Computer Science</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER / STATUS ============ -->
+  <footer>
+    <div class="status-line">
+      <span class="k">Account Status</span>
+      Open to full-stack software engineering roles. Available for on-site or hybrid work in the Klang Valley.
+    </div>
+    <div class="stamp-mark">OPEN ✓</div>
+    <div class="foot-note">Compiled from firsthand engineering records · Statement generated <span id="gen-date"></span></div>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    try {
+      var d = new Date();
+      var el = document.getElementById('gen-date');
+      if (el) {
+        el.textContent = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      }
+    } catch (e) {}
+  })();
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- Name: split into animated letters ----------
+  (function splitName() {
+    if (reduceMotion) return;
+    var target = document.getElementById('name-target');
+    if (!target) return;
+    var text = target.textContent;
+    target.textContent = '';
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      var span = document.createElement('span');
+      span.className = 'ch' + (ch === ' ' ? ' space' : '');
+      span.style.animationDelay = (0.05 + i * 0.045) + 's';
+      span.textContent = ch === ' ' ? ' ' : ch;
+      frag.appendChild(span);
+    }
+    target.appendChild(frag);
+  })();
+
+  // ---------- Typewriter role/line cycle ----------
+  (function typewriter() {
+    var el = document.getElementById('typewriter');
+    if (!el) return;
+    var lines = [
+      'backend: Java + Spring Boot',
+      'frontend: React + TypeScript',
+      'domain: fintech & digital wallets',
+      'based in Klang Valley, Malaysia'
+    ];
+    if (reduceMotion) { el.textContent = lines[0]; return; }
+
+    var li = 0, ci = 0, deleting = false;
+    function tick() {
+      var line = lines[li];
+      if (!deleting && ci <= line.length) {
+        el.textContent = line.slice(0, ci);
+        ci++;
+        setTimeout(tick, 45);
+      } else if (!deleting && ci > line.length) {
+        deleting = true;
+        setTimeout(tick, 1800);
+      } else if (deleting && ci > 0) {
+        ci--;
+        el.textContent = line.slice(0, ci);
+        setTimeout(tick, 28);
+      } else {
+        deleting = false;
+        li = (li + 1) % lines.length;
+        setTimeout(tick, 250);
+      }
+    }
+    tick();
+  })();
+
+  // ---------- Ambient ledger network (canvas) ----------
+  (function ledgerNetwork() {
+    var canvas = document.getElementById('ledger-net');
+    if (!canvas || reduceMotion) return;
+    var ctx = canvas.getContext('2d');
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w, h, nodes = [];
+    var pointer = { x: -9999, y: -9999 };
+
+    function accentColor() {
+      return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#2F6B4F';
+    }
+
+    function resize() {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var count = Math.min(60, Math.round((w * h) / 26000));
+      nodes = [];
+      for (var i = 0; i < count; i++) {
+        nodes.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.18,
+          vy: (Math.random() - 0.5) * 0.18
+        });
+      }
+    }
+
+    function step() {
+      ctx.clearRect(0, 0, w, h);
+      var color = accentColor();
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+
+        var dx = n.x - pointer.x, dy = n.y - pointer.y;
+        var pd = Math.sqrt(dx * dx + dy * dy);
+        if (pd < 140) {
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(pointer.x, pointer.y);
+          ctx.strokeStyle = color;
+          ctx.globalAlpha = 0.22 * (1 - pd / 140);
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+
+        for (var j = i + 1; j < nodes.length; j++) {
+          var m = nodes[j];
+          var ddx = n.x - m.x, ddy = n.y - m.y;
+          var d = Math.sqrt(ddx * ddx + ddy * ddy);
+          if (d < 130) {
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(m.x, m.y);
+            ctx.strokeStyle = color;
+            ctx.globalAlpha = 0.10 * (1 - d / 130);
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.4, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.4;
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (!document.hidden) requestAnimationFrame(step);
+    }
+
+    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('mousemove', function (e) { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive: true });
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) requestAnimationFrame(step); });
+
+    resize();
+    requestAnimationFrame(step);
+  })();
+</script>
+</body>
+</html>
