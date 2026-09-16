@@ -102,6 +102,47 @@
     padding-block: 40px 64px;
   }
 
+  /* ---------- Statement tab nav ---------- */
+  .tabnav {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--paper);
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .tabnav-inner {
+    max-width: 760px;
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+  }
+  .tabnav-inner::-webkit-scrollbar { display: none; }
+  .tabnav a {
+    flex: none;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 12px 12px;
+    color: var(--ink-faint);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .tabnav a .no { color: var(--brass); }
+  .tabnav a:hover { color: var(--ink); }
+  .tabnav a.active { color: var(--ink); border-bottom-color: var(--accent); }
+  .tabnav a.active .no { color: var(--accent); }
+
   .card {
     background: var(--paper-raised);
     border: 1px solid var(--line);
@@ -217,7 +258,7 @@
   .contact-row svg { width: 14px; height: 14px; flex: none; }
 
   /* ---------- Sections ---------- */
-  section { margin-top: 34px; }
+  section { margin-top: 34px; scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 52px); }
 
   .section-head {
     display: flex;
@@ -296,11 +337,25 @@
     text-transform: uppercase;
     color: var(--brass);
     padding-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
   }
   .ledger-row dd {
     margin: 0;
     color: var(--ink);
   }
+
+  .cat-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex: none;
+    background: var(--brass);
+  }
+  .cat-backend .cat-dot { background: var(--accent); }
+  .cat-frontend .cat-dot { background: var(--brass); }
+  .cat-data .cat-dot { background: var(--stamp); }
+  .cat-practice .cat-dot { background: var(--ink-faint); }
 
   /* ---------- Experience ---------- */
   .job-head {
@@ -562,6 +617,16 @@
 
 <canvas id="ledger-net" aria-hidden="true"></canvas>
 
+<nav class="tabnav" aria-label="Statement sections">
+  <div class="tabnav-inner">
+    <a href="#summary"><span class="no">01</span>Summary</a>
+    <a href="#stack"><span class="no">02</span>Stack</a>
+    <a href="#experience"><span class="no">03</span>Experience</a>
+    <a href="#projects"><span class="no">04</span>Projects</a>
+    <a href="#education"><span class="no">05</span>Education</a>
+  </div>
+</nav>
+
 <div class="sheet">
 
   <!-- ============ HEADER / PASSBOOK COVER ============ -->
@@ -625,30 +690,30 @@
   </section>
 
   <!-- ============ TECH STACK ============ -->
-  <section>
+  <section id="stack">
     <div class="section-head"><h2>Tech Stack</h2></div>
     <dl class="ledger">
-      <div class="ledger-row">
-        <dt>Backend</dt>
+      <div class="ledger-row cat-backend">
+        <dt><span class="cat-dot" aria-hidden="true"></span>Backend</dt>
         <dd>Java, Spring Boot, Spring Data JPA, Kotlin, REST APIs, Microservices</dd>
       </div>
-      <div class="ledger-row">
-        <dt>Frontend</dt>
+      <div class="ledger-row cat-frontend">
+        <dt><span class="cat-dot" aria-hidden="true"></span>Frontend</dt>
         <dd>React.js, TypeScript, React Native, Tailwind CSS, shadcn/ui</dd>
       </div>
-      <div class="ledger-row">
-        <dt>Data &amp; Infra</dt>
+      <div class="ledger-row cat-data">
+        <dt><span class="cat-dot" aria-hidden="true"></span>Data &amp; Infra</dt>
         <dd>PostgreSQL, Redis, Keycloak (OAuth 2.0 / OIDC), Appwrite, Firebase</dd>
       </div>
-      <div class="ledger-row">
-        <dt>Practices</dt>
+      <div class="ledger-row cat-practice">
+        <dt><span class="cat-dot" aria-hidden="true"></span>Practices</dt>
         <dd>DTO/mapper patterns, global exception handling, server-side pagination &amp; filtering, cache-aside caching, Git</dd>
       </div>
     </dl>
   </section>
 
   <!-- ============ EXPERIENCE ============ -->
-  <section>
+  <section id="experience">
     <div class="section-head"><h2>Experience</h2></div>
 
     <div class="job-head">
@@ -686,7 +751,7 @@
   </section>
 
   <!-- ============ PROJECTS ============ -->
-  <section>
+  <section id="projects">
     <div class="section-head"><h2>Selected Projects</h2></div>
     <div class="projects">
 
@@ -726,7 +791,7 @@
   </section>
 
   <!-- ============ EDUCATION ============ -->
-  <section>
+  <section id="education">
     <div class="section-head"><h2>Education</h2></div>
     <div class="card credential">
       <div class="seal">UiTM<br>CS</div>
@@ -901,6 +966,32 @@
 
     resize();
     requestAnimationFrame(step);
+  })();
+
+  // ---------- Statement tab nav: scrollspy ----------
+  (function tabSpy() {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.tabnav a'));
+    if (!links.length) return;
+    var map = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (target) map[id] = { link: a, el: target };
+    });
+
+    function setActive(id) {
+      links.forEach(function (a) { a.classList.remove('active'); });
+      if (map[id]) map[id].link.classList.add('active');
+    }
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+      Object.keys(map).forEach(function (id) { observer.observe(map[id].el); });
+    }
   })();
 </script>
 </body>
